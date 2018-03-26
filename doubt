@@ -1,0 +1,65 @@
+https://stackoverflow.com/questions/46554328/zuul-send-basic-authentication-to-downstream-application
+https://github.com/spring-cloud/spring-cloud-netflix/issues/1392
+
+You can add a custom filter and add the Authorization header to the request.
+The Authorization header is simply base64 encoded "username:password" string.
+
+public class AuthenticatedFilter extends ZuulFilter {
+
+  @Override
+  public String filterType() {
+    return "pre";
+  }
+
+  @Override
+  public int filterOrder() {
+    return 10;
+  }
+
+  @Override
+  public boolean shouldFilter() {
+    return true;
+  }
+
+  @Override
+  public Object run() {
+    RequestContext ctx = RequestContext.getCurrentContext();
+    String auth = "username" + ":" + "password";
+    byte[] encodedAuth = Base64.encodeBase64(auth.getBytes(Charset.forName("ISO-8859-1")));
+    String authValue = "Basic " + new String(encodedAuth);
+    ctx.addZuulRequestHeader(HttpHeaders.AUTHORIZATION, authValue);        
+    return null;
+  }
+}
+EDIT: You'll also need to create the bean for this filter for Zuul to pick it up. So in your Configuration class/Main application class, add:
+
+@Bean
+public AuthenticatedFilter getAuthenticatedFilter () {
+    return new AuthenticatedFilter();
+}
+
+
+@PostMapping("/loginn")
+	@HystrixCommand(fallbackMethod = "ifgetUserInformationFails")
+	public String getUserInformation(@RequestBody UserInformation loginInfoInBody) {
+		String message = "";
+		String getPassword = "";
+		UserInformation info = null;
+		Optional<UserInformation> retrieverIformation = userProxy.getUserInformation(loginInfoInBody.getUserId());
+
+		if (!retrieverIformation.isPresent()) {
+			message = "No Such User Exists";
+		} else {
+			info = retrieverIformation.get();
+			getPassword = info.getPassword();
+			if (getPassword.equals(loginInfoInBody.getPassword())) {
+				message = "Welcome" + info.getUserName();
+
+			} else {
+				message = "Incorrect Username Or password";
+			}
+		}
+
+		return message;
+	}
+
