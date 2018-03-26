@@ -1,8 +1,6 @@
 http://localhost:8761/   eureka
-http://localhost:8000/register  post  http://localhost:8765/user-registration-service/register
-http://localhost:9000/login/KKD112 get
-http://localhost:8765/registration-service/register  get via zull
-http://localhost:8765/login-service/login/KKD112  goes through zuul hit login-service then internally hit zull again and call get method go register-service
+post via zull http://localhost:8765/user-registration-service/register
+http://localhost:8765/login-service/login  post request goes through zuul hit login-service then internally hit zull again and call get method go register-service
 http://localhost:8000/swagger-ui.html
 http://localhost:9000/swagger-ui.html
 
@@ -19,3 +17,5 @@ Dummy-
 
 sudo service mongod start
 
+post data of login
+{ "userId":"22341","password":"1234567" }
