@@ -47,9 +47,8 @@ public class RegistrationController {
 	}
 
 	public Optional<UserInformation> ifgetUserInformationFails() {
-		// return new UserInformation("default", "default", "default",null, "default",
-		// "default", 0);
-		return null;
+	UserInformation user= new UserInformation("default", "default", "default",null, "default","default", 0);
+	return Optional.of(user);
 	}
 
 	@PostMapping("/register")

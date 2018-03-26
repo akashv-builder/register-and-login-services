@@ -15,8 +15,8 @@ public class FallBackClass implements UserInformationProxy {
 
 	@Override
 	public Optional<UserInformation> getUserInformation(@PathVariable(value = "id") String id) {
-		//UserInformation userInformation = new UserInformation("dummy", "dummy", "dummy", null, "dummy", id, 0);
-		return null;
+		UserInformation user= new UserInformation("default", "default", "default",null, "default","default", 0);
+		return Optional.of(user);
 	}
 
 }

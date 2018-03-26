@@ -16,13 +16,7 @@ public class LoginController {
 
 	@Autowired
 	UserInformationProxy userProxy;
-
-	/*@GetMapping("/login/{id}")
-	@HystrixCommand(fallbackMethod = "ifgetUserInformationFails")
-	public Optional<UserInformation> getUserInformation(@PathVariable String id) {
-		return userProxy.getUserInformation(id);
-	}*/
-
+	
 	@PostMapping("/login")
 	@HystrixCommand(fallbackMethod = "ifgetUserInformationFails")
 	public String getUserInformation(@RequestBody UserInformation loginInfoInBody) {
@@ -47,8 +41,7 @@ public class LoginController {
 		return message;
 	}
 	public Optional<UserInformation> ifgetUserInformationFails() {
-		// return new UserInformation("default", "default", "default",null, "default",
-		// "default", 0);
-		return null;
+		UserInformation user= new UserInformation("default", "default", "default",null, "default","default", 0);
+		return Optional.of(user);
 	}
 }
