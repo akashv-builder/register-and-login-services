@@ -2,7 +2,6 @@ package com.main.modal;
 
 import java.util.Date;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 
 public class UserInformation {
 
