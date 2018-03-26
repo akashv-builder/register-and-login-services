@@ -19,15 +19,17 @@ public class LoginController {
 	@Autowired
 	UserInformationProxy userProxy;
 
-	@GetMapping("/login/{id}")
+	/*@GetMapping("/login/{id}")
 	@HystrixCommand(fallbackMethod = "ifgetUserInformationFails")
 	public Optional<UserInformation> getUserInformation(@PathVariable String id) {
 		return userProxy.getUserInformation(id);
-	}
+	}*/
 
-	/*@PostMapping("/login")
+	@PostMapping("/login")
 	@HystrixCommand(fallbackMethod = "ifgetUserInformationFails")
 	public String getUserInformation(@RequestBody UserInformation loginInfoInBody) {
+		System.out.println("hollllllllllllllllllllllllllllllllllaaa");
+		System.out.println(loginInfoInBody);
 		String message = "";
 		String getPassword = "";
 		UserInformation info = null;
@@ -48,7 +50,6 @@ public class LoginController {
 
 		return message;
 	}
-*/
 	public Optional<UserInformation> ifgetUserInformationFails() {
 		// return new UserInformation("default", "default", "default",null, "default",
 		// "default", 0);

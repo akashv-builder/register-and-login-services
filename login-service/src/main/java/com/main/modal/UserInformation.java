@@ -13,7 +13,7 @@ public class UserInformation {
 	
 	private Date dateOfBirth;
 	private String educationQualification;
-	@JsonIgnore
+	
 	private String password;
 	private int age;
 
